@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content%}
+<h1> hello {{name}} !!!</h1>
+
+
+<form action="primes" method='post'>
+
+{% csrf_token %}
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="lower">Lower Limit</label>
+          <input type="lower" class="form-control"name='num1' id="num1" placeholder="Number1">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="upper">Upper Limit</label>
+          <input type="int" class="form-control" name='num2' id="num2" placeholder="Number2">
+        </div>
+      </div>
+        <div class="form-group col-md-4">
+          <label for="alg">Algorithm</label>
+          <select id="alg" name="meth" class="form-control">
+            <option selected>Sieve Of Eratosthenes</option>
+            <option>Optimized</option>
+            <option>Simple</option>
+          </select>
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Find Prime Numbers In Range</button>
+          
+</form>
+
+{% endblock %}

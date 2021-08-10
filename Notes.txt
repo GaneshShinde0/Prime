@@ -1,0 +1,77 @@
+MVC:         Model View Controller
+MVT:         Model View Template
+Why Django?: Build Application Faster, Components, Security, Scalability
+python manage.py startapp calc: starts project
+settings.py  Is For project and every app will have its own stuff
+#Application
+admin
+apps
+models      :Web App ORM Model Create Data (databases)
+tests.py    :TestCases For project if you want to test your web Application
+views.py    :Request
+First App In Django
+    Calc:
+    urls.py:create new urls for calc
+    path('',views.home,name='home')#homepage in calc.urls py
+    we added patterns in url path('', include('calc.urls')),
+     path('',views.home,name='home')#homepage calc .url
+    def home(request):# in views.py
+    return HttpResponse("hello world")# You can use html files or add html tags as well
+
+DTL         :Jango Template Language
+you can also add new templates of html 
+create folder create templates in it goto settings 
+paste
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
+Rendering  :Merging Static content with dyanamic content
+base.html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body bgcolor='cyan'>
+        {% block content %}
+        {% endblock %}
+    </body>
+    </html>
+block content is used for using this code somewhere else
+
+home.html
+    {% extends 'base.html' %}
+    {% block content%}
+    <h1> hello {{name}} !!!</h1>
+    {% endblock %}
+    Uses Content Of Base.html
+
+
+
+## 
+I Added my code for finding prime numbers in views.py
+the code is working correctly 
+now we will work on hiding given parameters in address BAR 
+
+we will use post instead of get to submit data so ou wont see result in address bar
+
+
+#MVT        :Model View Template
+Normal Page:
+    layout
+    data
+    logic
+Separation Of Concerns
+Model:      Data
+Template:   HTML,CSS,DTL(Django Template Language)
+
+
+Django --> URL <---->View<--->Model<---->Data  ###View<--->Template 
+
+MVC ::: Model View Controller
+
+
+
+## Static Files 
+We Can Make Great UI By Using Static Files
