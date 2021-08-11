@@ -11,13 +11,13 @@ class APIBASE(models.Model):
     #time Elapsed
     #Algorithm Chosen
     #Number Of Primes Returned
-    timeStamp=models.DateTimeField(auto_now_add=True)
+    timeStamp=models.CharField(max_length=200)
     ex_range=models.CharField(max_length=20,default='')
     #@property
     #p,q=map(int,str(ex_range).split())
     alg_chosen=models.CharField(max_length=30,blank=True,default='')
     time_complexity=models.CharField(max_length=20)
-    time_elapsed=models.DateTimeField()
+    time_elapsed=models.CharField(max_length=35)
     number_of_primes_returned=models.IntegerField()
     class Meta:
         ordering=('timeStamp',)

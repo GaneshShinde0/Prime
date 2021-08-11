@@ -5,6 +5,7 @@ import time
 import datetime
 # Create your views here.
 #create function home here after adding path('',views.home,name='home')#homepage 
+from .models import APIBASE
 
 def home(request):
     return render(request, 'home.html',{'name':'Ganesh'})# You can use html files or add html tags as well
@@ -78,11 +79,16 @@ def primes(request):
         time_complexity='O(N*LOG(LOG(N)))'
         result=eras(p,q)
 
-    return render(request,"result.html",{'time_stamp':timestamp,'count':len(result),'alg':alg,'time_complexity':time_complexity,'result':' '.join(result),'range':str(p)+' '+str(q),'time_elapsed':time.time()-start_time})
+    te=time.time()-start_time
+    print(te)
+    np=len(result)
+    b=APIBASE(timeStamp=timestamp,ex_range=str(p)+' '+str(q),alg_chosen=alg,time_complexity=time_complexity,time_elapsed=te,number_of_primes_returned=np)
+    b.save()
+    return render(request,"result.html",{'time_stamp':timestamp,'count':np,'alg':alg,'time_complexity':time_complexity,'result':' '.join(result),'range':str(p)+' '+str(q),'time_elapsed':te})
 
 #Code FOr Converting Request To API
 
-
+'''
 from django.http import JsonResponse,HttpResponse
 from rest_framework.parsers import JSONParser
 from .models import APIBASE
@@ -134,5 +140,12 @@ def calc_detail(request,pk):
     elif request.method=='DELETE':
         calc.delete()
         return HttpResponse(status=204)
+'''
+from rest_framework import viewsets
+
+from .serializers import CalcSerializer
 
 
+class APIBASEViewSet(viewsets.ModelViewSet):
+    queryset = APIBASE.objects.all().order_by('timeStamp')
+    serializer_class = CalcSerializer

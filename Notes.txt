@@ -75,3 +75,6 @@ MVC ::: Model View Controller
 
 ## Static Files 
 We Can Make Great UI By Using Static Files
+#python manage.py 
+createsuperuser --email ganesh@email.com --username admin
+password:12345
