@@ -15,8 +15,9 @@ class APIBASE(models.Model):
     ex_range=models.CharField(max_length=20,default='')
     #@property
     #p,q=map(int,str(ex_range).split())
-    time_elapsed=models.DateTimeField()
     alg_chosen=models.CharField(max_length=30,blank=True,default='')
+    time_complexity=models.CharField(max_length=20)
+    time_elapsed=models.DateTimeField()
     number_of_primes_returned=models.IntegerField()
     class Meta:
         ordering=('timeStamp',)

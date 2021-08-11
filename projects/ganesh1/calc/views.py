@@ -82,25 +82,57 @@ def primes(request):
 
 #Code FOr Converting Request To API
 
-'''
-from django.http import JsonResponse
+
+from django.http import JsonResponse,HttpResponse
 from rest_framework.parsers import JSONParser
-from .models import Article
-from .serializers import ArticleSerializer
+from .models import APIBASE
+from .serializers import CalcSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-def article_list(request):
+from rest_framework import status
+from rest_framework.renderers import JSONRenderer
+
+class JSONResponse(HttpResponse):
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
+
+@csrf_exempt
+def calc_list(request):
 
     if request.method=='POST':
-        articles=Article.objects.all()
-        serializer=ArticleSerializer(articles,many=True)
+        apibase=APIBASE.objects.all()
+        serializer=CalcSerializer(apibase,many=True)
         return JsonResponse(serializer.data,safe=False)
 
     elif request.method=='GET':
         data=JSONParser().parse(request)
-        serializer=ArticleSerializer(data=data)
+        calc_serializer=CalcSerializer(data=data)
 
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data,status=201)
-            '''
+        if calc_serializer.is_valid():
+            calc_serializer.save()
+            return JsonResponse(calc_serializer.data,status=201)
+        return JSONResponse(calc_serializer.errors,status=400) 
+
+@csrf_exempt
+def calc_detail(request,pk):
+    try:
+        calc=APIBASE.objects.get(pk=pk)
+    except APIBASE.DoesNotExist:
+        return HttpResponse(status=404)
+    if request.method=='GET':
+        calc_serializer=CalcSerializer(calc)
+        return JSONResponse(calc_serializer.data)
+    elif request.method=='PUT':
+        calc_data=JSONParser().parse(request)
+        calc_serializer=CalcSerializer(calc,data=calc_data)
+        if calc_serializer.is_valid():
+            calc_serializer.save()
+            return JSONResponse(calc_serializer.data)
+        return JSONResponse(calc_serializer.errors,status=400)
+    elif request.method=='DELETE':
+        calc.delete()
+        return HttpResponse(status=204)
+
+
